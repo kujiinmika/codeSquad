@@ -40,5 +40,81 @@
         <p class="final"></p>
         <button class="btn">START</button>
         <button class="btn2">RESTART</button>
+        
+        <script>
+            window.onload= function(){
+            var hitSum=[];
+            var strikeSum=[];
+            var ballSum=[];
+            var outSum=[];
+            
+            var strikeCount= document.querySelector(".strike");
+            var ballCount= document.querySelector(".ball");
+            var outCount= document.querySelector(".out");
+            var final= document.querySelector(".final");
+            
+            var check= check
+            
+            var result= document.querySelector(".result");
+            var btn= document.querySelector(".btn");
+            var btn2= document.querySelector(".btn2");
+            
+            
+            btn.addEventListener("click",function(){
+                var play= Math.floor(Math.random()*4);
+                
+                if(play==0){
+                    result.innerHTML= "안타! 다음 타자가 타석에 입장했습니다.";
+                    hitSum.push(check);
+                    strikeSum=[];
+                    strikeCount.innerHTML= strikeSum.length;
+                    ballSum=[];
+                    ballCount.innerHTML= ballSum.length;
+                }else if(play==1){
+                    result.innerHTML= "스트라이크!";
+                    strikeSum.push(check);
+                    strikeCount.innerHTML= strikeSum.length;
+                }else if(play==2){
+                    result.innerHTML= "볼!";
+                    ballSum.push(check);
+                    ballCount.innerHTML= ballSum.length;
+                }else{
+                    result.innerHTML= "아웃! 다음 타자가 타석에 입장했습니다.";
+                    outSum.push(check);
+                    outCount.innerHTML= outSum.length;
+                }
+                
+                if(strikeSum.length==3){
+                    result.innerHTML= "삼진 아웃! 다음 타자가 타석에 입장했습니다.";
+                    strikeSum=[];
+                    strikeCount.innerHTML= Number(0);
+                    outSum.push("0");
+                    outCount.innerHTML= outSum.length;
+                    
+                    
+                }
+                
+                if(ballSum.length==4){
+                    result.innerHTML= "볼 넷! 다음 타자가 타석에 입장했습니다.";
+                    ballSum=[];
+                    ballCount.innerHTML= ballSum.length;
+                    hitSum.push(check);
+                    
+                }
+                
+                if(outSum.length==3){
+                    alert("시합 종료");
+                    result.innerHTML= "GAME OVER";
+                    btn.style.display="none";
+                    btn2.style.display="block";
+                    final.innerHTML= "<p style='color: red; font-size: 16px;'>최종 안타수: "+hitSum.length+"</p>";
+                    
+                    btn2.addEventListener("click",function(){
+                        location.reload();
+                    })
+                }
+            })
+        }
+        </script>
     </body>
 </html>
