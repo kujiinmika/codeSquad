@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <title></title>
+        <script></script>
+        <style>
+             @font-face { font-family: 'DungGeunMo'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff'); font-weight: normal; font-style: normal; }
+            *{
+                list-style: none;
+                font-family: 'DungGeunMo'
+            }
+        </style>
+    </head>
+    
+    <body>
+        <fieldset>
+            <legend style="font-size: 18px;">팀 데이터 입력</legend>
+            <legend id="legend"><input id="teamName" type="text" placeholder="팀1의 이름을 입력하세요"><button id="teamBtn">결정</button></legend>
+            <ul>
+                <li><label for="number">순번</label><input id="number" type="number" min="1" max="9" autofocus></li>
+                <li><label for="nombre">이름</label><input id="nombre" type="text"></li>
+                <li><label for="perc">타율</label><input id="perc" type="number" min="0.101" max="0.499" step="0.001"></li>
+                <li><button id="register">등록</button></li>
+            </ul>
+            <div id="listArea"></div>
+            <br>
+
+            <legend id="legend2"><input id="teamName2" type="text" placeholder="팀2의 이름을 입력하세요"><button id="teamBtn2">결정</button></legend>
+            <ul>
+                <li><label for="number2">순번</label><input id="number2" type="number" min="1" max="9" autofocus></li>
+                <li><label for="nombre2">이름</label><input id="nombre2" type="text"></li>
+                <li><label for="perc2">타율</label><input id="perc2" type="number" min="0.101" max="0.499" step="0.001"></li>
+                <li><button id="register2">등록</button></li>
+            </ul>
+            <div id="listArea2"></div>
+        </fieldset>
+        
+        <br>
+        
+        <fieldset>
+            <legend style="font-size: 18px;">시합하기</legend>
+            <p><span id="inning">1</span>회<span id="tb">초</span></p>
+            <p><span id="score">0</span> : <span id="score2">0</span></p>
+            <p>스트라이크<span id="strike">0</span></p>
+            <p>볼<span id="ball">0</span></p>
+            <p>아웃<span id="out">0</span></p>
+            <br>
+            <p id="result"></p>
+            <button id="play">1PLAY</button>
+            <button id="play2">2PLAY</button>
+        </fieldset>
+        
+        <script>
+            var teamName;
+            var teamBtn= document.querySelector("#teamBtn");
+            
+            var number= document.querySelector("#number");
+            var nombre= document.querySelector("#nombre");
+            var perc= document.querySelector("#perc");
+            
+            var register= document.querySelector("#register");
+            
+            var rosters=[];
+            
+            var current= 0;
+            
+            var listArea= document.querySelector("#listArea");
+            
+            
+            
+            function Roster(number, nombre, perc){
+                this.number= Number(number);
+                this.nombre= nombre;
+                this.perc= Number(perc);
+            }
+            
+            teamBtn.addEventListener("click",function(){
+                if(document.querySelector("#teamName").value!=null){
+                    teamName= document.querySelector("#teamName").value;
+                    document.querySelector("#legend").innerHTML= teamName;
+                } 
+            })
+            
+            register.addEventListener("click",function(){
+                var roster= new Roster(number.value, nombre.value, perc.value);
+                hitP= roster.perc;
+                rosters.push(roster);
+                number.value="";
+                nombre.value="";
+                perc.value="";
+                number.focus();
+                if(rosters.length==9) alert("팀1 데이터 입력이 완료되었습니다.");
+                
+                function showList(){
+                    var list= "<ul>"+"<li>순번 / 이름 / 타율</li>"
+                    for(var i=0; i<rosters.length; i++){
+                        list+="<li>"+rosters[i].number+" / "+rosters[i].nombre+" / "+rosters[i].perc+"<span class='close' style='color: red; cursor: pointer;' id="+i+">X</span></li>";
+                    }
+                    list+="</ul>";
+                    
+                    listArea.innerHTML= list;
+                }
+                
+                showList();
+                
+                var remove= document.querySelectorAll(".close");
+                
+                for(var i=0; i<remove.length; i++){
+                    remove[i].addEventListener("click",function(){
+                        var id= this.getAttribute("id");
+                        rosters.splice(id,1);
+                        showList();
+                    })
+                }
+            })
+            
+            var teamName2;
+            var teamBtn2= document.querySelector("#teamBtn2");
+            
+            var number2= document.querySelector("#number2");
+            var nombre2= document.querySelector("#nombre2");
+            var perc2= document.querySelector("#perc2");
+            
+            var register2= document.querySelector("#register2");
+            
+            var rosters2=[];
+            
+            var current2= 0;
+            
+            var listArea2= document.querySelector("#listArea2");
+            
+            teamBtn2.addEventListener("click",function(){
+                if(document.querySelector("#teamName2").value!=null){
+                    teamName2= document.querySelector("#teamName2").value;
+                    document.querySelector("#legend2").innerHTML= teamName2;
+                }
+            })
+            
+            
+            register2.addEventListener("click",function(){
+                var roster= new Roster(number2.value, nombre2.value, perc2.value);
+                hitP2= roster.perc;
+                rosters2.push(roster);
+                number2.value="";
+                nombre2.value="";
+                perc2.value="";
+                number2.focus();
+                if(rosters2.length==9) alert("팀2 데이터 입력이 완료되었습니다.");
+                
+                function showList(){
+                    var list= "<ul>"+"<li>순번 / 이름 / 타율</li>"
+                    for(var i=0; i<rosters2.length; i++){
+                        list+="<li>"+rosters2[i].number+" / "+rosters2[i].nombre+" / "+rosters2[i].perc+"<span class='close2' style='color: red; cursor: pointer;' id="+i+">X</span></li>";
+                    }
+                    list+="</ul>";
+                    
+                    listArea2.innerHTML= list;
+                }
+                
+                showList();
+                
+                var remove= document.querySelectorAll(".close2");
+                
+                for(var i=0; i<remove.length; i++){
+                    remove[i].addEventListener("click",function(){
+                        var id= this.getAttribute("id");
+                        rosters2.splice(id,1);
+                        showList();
+                    })
+                }
+            })
+
+        </script>
+
+    </body>
+    
+</html>
